@@ -1,0 +1,181 @@
+CREATE DATABASE taller;
+USE taller;
+
+CREATE TABLE cliente (
+    idCliente INT AUTO_INCREMENT,
+    email VARCHAR(255),
+    nombre VARCHAR(100),
+    apellidos VARCHAR(100),
+    direccion VARCHAR(255),
+    CONSTRAINT pkIdCliente PRIMARY KEY (idCliente)
+);
+
+CREATE TABLE tipoTelefono (
+    idTipoTelefono INT,
+    tipoTelefono VARCHAR(50),
+    CONSTRAINT pkIdTipoTelefono PRIMARY KEY (idTipoTelefono)
+);
+
+CREATE TABLE telefonoCliente (
+    idTelefonoCliente INT,
+    idTipoTelefono INT,
+    idCliente INT,
+    numero VARCHAR(15),
+    CONSTRAINT pkIdTelefonoCliente PRIMARY KEY (idTelefonoCliente),
+    CONSTRAINT fkIdTipoTelefono FOREIGN KEY (idTipoTelefono) REFERENCES tipoTelefono(idTipoTelefono),
+    CONSTRAINT fkIdCliente FOREIGN KEY (idCliente) REFERENCES cliente(idCliente)
+);
+
+CREATE TABLE marca (
+    idMarca INT,
+    marca VARCHAR(50),
+    CONSTRAINT pkIdMarca PRIMARY KEY (idMarca)
+);
+
+CREATE TABLE modelo (
+    idModelo INT,
+    idMarca INT,
+    modelo VARCHAR(50),
+    CONSTRAINT pkIdModelo PRIMARY KEY (idModelo),
+    CONSTRAINT fkIdMarca FOREIGN KEY (idMarca) REFERENCES marca(idMarca)
+);
+
+CREATE TABLE vehiculo (
+    idVehiculo INT AUTO_INCREMENT,
+    idCliente INT,
+    placa VARCHAR(10),
+    idModelo INT,
+    CONSTRAINT pkIdVehiculo PRIMARY KEY (idVehiculo),
+    CONSTRAINT fkIdCliente FOREIGN KEY (idCliente) REFERENCES cliente(idCliente),
+    CONSTRAINT fkIdModelo FOREIGN KEY (idModelo) REFERENCES modelo(idModelo)
+);
+
+CREATE TABLE proveedor (
+    idProveedor INT,
+    email VARCHAR(255),
+    nombre VARCHAR(100),
+    contacto VARCHAR(50),
+    CONSTRAINT pkIdProveedor PRIMARY KEY (idProveedor)
+);
+
+CREATE TABLE telefonoProveedor (
+    idTelefono INT,
+    idTipoTelefonoP INT,
+    idProveedor INT,
+    numero VARCHAR(15),
+    CONSTRAINT pkIdTelefono PRIMARY KEY (idTelefono),
+    CONSTRAINT fkIdTipoTelefonoP FOREIGN KEY (idTipoTelefonoP) REFERENCES tipoTelefono(idTipoTelefono),
+    CONSTRAINT fkIdProveedorT FOREIGN KEY (idProveedor) REFERENCES proveedor(idProveedor)
+);
+
+CREATE TABLE cargo (
+    idCargo INT,
+    cargo VARCHAR(50),
+    CONSTRAINT pkIdCargo PRIMARY KEY (idCargo)
+);
+
+CREATE TABLE empleado (
+    idEmpleado INT,
+    idCargo INT,
+    nombre VARCHAR(100),
+    apellidos VARCHAR(100),
+    emailEmpresa VARCHAR(255),
+    emailPersonal VARCHAR(255),
+    CONSTRAINT pkIdEmpleado PRIMARY KEY (idEmpleado),
+    CONSTRAINT fkIdCargo FOREIGN KEY (idCargo) REFERENCES cargo(idCargo)
+);
+
+CREATE TABLE telefonoEmpleado (
+    idTelefonoEmpleado INT,
+    idTipoTelefonoE INT,
+    idEmpleado INT,
+    numero VARCHAR(15),
+    CONSTRAINT pkIdTelefonoEmpleado PRIMARY KEY (idTelefonoEmpleado),
+    CONSTRAINT fkIdTipoTelefonoE FOREIGN KEY (idTipoTelefonoE) REFERENCES tipoTelefono(idTipoTelefono),
+    CONSTRAINT fkIdEmpleado FOREIGN KEY (idEmpleado) REFERENCES empleado(idEmpleado)
+);
+
+CREATE TABLE pieza (
+    idPieza INT,
+    nombre VARCHAR(100),
+    descripcion TEXT,
+    CONSTRAINT pkIdPieza PRIMARY KEY (idPieza)
+);
+
+CREATE TABLE ordenCompra (
+    idOrdenCompra INT,
+    idProveedor INT,
+    idEmpleado INT,
+    fecha DATE,
+    total FLOAT,
+    CONSTRAINT pkIdOrdenCompra PRIMARY KEY (idOrdenCompra),
+    CONSTRAINT fkIdProveedorOD FOREIGN KEY (idProveedor) REFERENCES proveedor(idProveedor),
+    CONSTRAINT fkIdEmpleadoOD FOREIGN KEY (idEmpleado) REFERENCES empleado(idEmpleado)
+);
+
+CREATE TABLE ordenDetalle (
+    idOrdenCompra INT,
+    idPieza INT,
+    cantidad INT,
+    precio FLOAT,
+    CONSTRAINT pkOrdenDetalle PRIMARY KEY (idOrdenCompra, idPieza),
+    CONSTRAINT fkOrdenDetalleOrdenCompra FOREIGN KEY (idOrdenCompra) REFERENCES ordenCompra(idOrdenCompra),
+    CONSTRAINT fkOrdenDetallePieza FOREIGN KEY (idPieza) REFERENCES pieza(idPieza)
+);
+
+CREATE TABLE servicio (
+    idServicio INT,
+    nombre VARCHAR(100),
+    descripcion TEXT,
+    costo FLOAT,
+    CONSTRAINT pkIdServicio PRIMARY KEY (idServicio)
+);
+
+CREATE TABLE reparacion (
+    idReparacion INT,
+    idVehiculo INT,
+    idEmpleado INT,
+    idServicio INT,
+    fecha DATE,
+    costoTotal FLOAT,
+    descripcion TEXT,
+    CONSTRAINT pkIdReparacion PRIMARY KEY (idReparacion),
+    CONSTRAINT fkIdVehiculoR FOREIGN KEY (idVehiculo) REFERENCES vehiculo(idVehiculo),
+    CONSTRAINT fkIdEmpleadoR FOREIGN KEY (idEmpleado) REFERENCES empleado(idEmpleado),
+    CONSTRAINT fkIdServicioR FOREIGN KEY (idServicio) REFERENCES servicio(idServicio)
+);
+
+CREATE TABLE cita (
+    idCita INT,
+    idReparacion INT,
+    fechaHora DATETIME,
+    CONSTRAINT pkIdCita PRIMARY KEY (idCita),
+    CONSTRAINT fkIdReparacionC FOREIGN KEY (idReparacion) REFERENCES reparacion(idReparacion)
+);
+
+CREATE TABLE reparacionPieza (
+    idPieza INT,
+    idReparacion INT,
+    cantidad INT,
+    CONSTRAINT pkReparacionPieza PRIMARY KEY (idPieza, idReparacion),
+    CONSTRAINT fkReparacionPiezaPieza FOREIGN KEY (idPieza) REFERENCES pieza(idPieza),
+    CONSTRAINT fkReparacionPiezaReparacion FOREIGN KEY (idReparacion) REFERENCES reparacion(idReparacion)
+);
+
+CREATE TABLE factura (
+    idFactura INT,
+    idCliente INT,
+    fecha DATE,
+    total FLOAT,
+    CONSTRAINT pkIdFactura PRIMARY KEY (idFactura),
+    CONSTRAINT fkIdClienteF FOREIGN KEY (idCliente) REFERENCES cliente(idCliente)
+);
+
+CREATE TABLE detalleFactura (
+    idReparacion INT,
+    idFactura INT,
+    precioFinal FLOAT,
+    CONSTRAINT pkDetalleFactura PRIMARY KEY (idReparacion, idFactura),
+    CONSTRAINT fkDetalleFacturaReparacion FOREIGN KEY (idReparacion) REFERENCES reparacion(idReparacion),
+    CONSTRAINT fkDetalleFacturaFactura FOREIGN KEY (idFactura) REFERENCES factura(idFactura)
+);
