@@ -46,7 +46,7 @@ CREATE TABLE vehiculo (
     placa VARCHAR(10),
     idModelo INT,
     CONSTRAINT pkIdVehiculo PRIMARY KEY (idVehiculo),
-    CONSTRAINT fkIdCliente FOREIGN KEY (idCliente) REFERENCES cliente(idCliente),
+    CONSTRAINT fkIdClienteV FOREIGN KEY (idCliente) REFERENCES cliente(idCliente),
     CONSTRAINT fkIdModelo FOREIGN KEY (idModelo) REFERENCES modelo(idModelo)
 );
 
@@ -178,4 +178,45 @@ CREATE TABLE detalleFactura (
     CONSTRAINT pkDetalleFactura PRIMARY KEY (idReparacion, idFactura),
     CONSTRAINT fkDetalleFacturaReparacion FOREIGN KEY (idReparacion) REFERENCES reparacion(idReparacion),
     CONSTRAINT fkDetalleFacturaFactura FOREIGN KEY (idFactura) REFERENCES factura(idFactura)
+);
+
+CREATE TABLE pais (
+    idPais INT,
+    pais   VARCHAR(100),
+    CONSTRAINT pkIdPais PRIMARY KEY (idPais)
+);
+
+CREATE TABLE ciudad (
+    idCiudad  INT,
+    idPais    INT,
+    ciudad    VARCHAR(100),
+    CONSTRAINT pkIdCiudad PRIMARY KEY (idCiudad),
+    CONSTRAINT fkIdPais FOREIGN KEY (idPais) REFERENCES pais(idPais)
+);
+
+CREATE TABLE sucursal (
+    idSucursal  INT,
+    idCiudad    INT,
+    nombre      VARCHAR(100),
+    CONSTRAINT pkIdSucursal PRIMARY KEY (idSucursal),
+    CONSTRAINT fkIdCiudadS FOREIGN KEY (idCiudad) REFERENCES ciudad(idCiudad)
+);
+
+CREATE TABLE ubicacionSucursal (
+    idUbicacionSucursal INT,
+    idSucursal  INT,
+    nombre      VARCHAR(100),
+    CONSTRAINT pkIdUbicacionSucursal PRIMARY KEY (idUbicacionSucursal),
+    CONSTRAINT fkIdSucursalUB FOREIGN KEY (idSucursal) REFERENCES sucursal(idSucursal)
+);
+
+
+CREATE TABLE inventario (
+    idInventario INT,
+    idPieza INT,
+    idUbicacionSucursal INT,
+    cantidad VARCHAR(100),
+    CONSTRAINT pkIdInventario PRIMARY KEY (idInventario),
+    CONSTRAINT fkidPiezaI FOREIGN KEY (idPieza) REFERENCES pieza(idPieza),
+    CONSTRAINT fkIdUbicacionSucursalI FOREIGN KEY (idUbicacionSucursal) REFERENCES ubicacionSucursal(idUbicacionSucursal)
 );
