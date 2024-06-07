@@ -1,4 +1,35 @@
 # proyectoMySQL
 
 ## Tablas creadas
-![image](https://github.com/j05uan/proyectoMySQL/assets/152333487/ab53dff5-6a37-43c4-96ea-e0d4789bb7b4)
+~~~mysql
+show tables;
++-------------------+
+| Tables_in_taller  |
++-------------------+
+| cargo             |
+| cita              |
+| ciudad            |
+| cliente           |
+| detalleFactura    |
+| empleado          |
+| factura           |
+| inventario        |
+| marca             |
+| modelo            |
+| ordenCompra       |
+| ordenDetalle      |
+| pais              |
+| pieza             |
+| proveedor         |
+| reparacion        |
+| reparacionPieza   |
+| servicio          |
+| sucursal          |
+| telefonoCliente   |
+| telefonoEmpleado  |
+| telefonoProveedor |
+| tipoTelefono      |
+| ubicacionSucursal |
+| vehiculo          |
++-------------------+
+~~~
