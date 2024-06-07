@@ -11,13 +11,13 @@ CREATE TABLE cliente (
 );
 
 CREATE TABLE tipoTelefono (
-    idTipoTelefono INT,
+    idTipoTelefono INT AUTO_INCREMENT,
     tipoTelefono VARCHAR(50),
     CONSTRAINT pkIdTipoTelefono PRIMARY KEY (idTipoTelefono)
 );
 
 CREATE TABLE telefonoCliente (
-    idTelefonoCliente INT,
+    idTelefonoCliente INT AUTO_INCREMENT,
     idTipoTelefono INT,
     idCliente INT,
     numero VARCHAR(15),
@@ -27,13 +27,13 @@ CREATE TABLE telefonoCliente (
 );
 
 CREATE TABLE marca (
-    idMarca INT,
+    idMarca INT AUTO_INCREMENT,
     marca VARCHAR(50),
     CONSTRAINT pkIdMarca PRIMARY KEY (idMarca)
 );
 
 CREATE TABLE modelo (
-    idModelo INT,
+    idModelo INT AUTO_INCREMENT,
     idMarca INT,
     modelo VARCHAR(50),
     CONSTRAINT pkIdModelo PRIMARY KEY (idModelo),
@@ -51,7 +51,7 @@ CREATE TABLE vehiculo (
 );
 
 CREATE TABLE proveedor (
-    idProveedor INT,
+    idProveedor INT AUTO_INCREMENT,
     email VARCHAR(255),
     nombre VARCHAR(100),
     contacto VARCHAR(50),
@@ -59,7 +59,7 @@ CREATE TABLE proveedor (
 );
 
 CREATE TABLE telefonoProveedor (
-    idTelefono INT,
+    idTelefono INT AUTO_INCREMENT,
     idTipoTelefonoP INT,
     idProveedor INT,
     numero VARCHAR(15),
@@ -69,13 +69,13 @@ CREATE TABLE telefonoProveedor (
 );
 
 CREATE TABLE cargo (
-    idCargo INT,
+    idCargo INT AUTO_INCREMENT,
     cargo VARCHAR(50),
     CONSTRAINT pkIdCargo PRIMARY KEY (idCargo)
 );
 
 CREATE TABLE empleado (
-    idEmpleado INT,
+    idEmpleado INT AUTO_INCREMENT,
     idCargo INT,
     nombre VARCHAR(100),
     apellidos VARCHAR(100),
@@ -86,7 +86,7 @@ CREATE TABLE empleado (
 );
 
 CREATE TABLE telefonoEmpleado (
-    idTelefonoEmpleado INT,
+    idTelefonoEmpleado INT AUTO_INCREMENT,
     idTipoTelefonoE INT,
     idEmpleado INT,
     numero VARCHAR(15),
@@ -96,14 +96,14 @@ CREATE TABLE telefonoEmpleado (
 );
 
 CREATE TABLE pieza (
-    idPieza INT,
+    idPieza INT AUTO_INCREMENT,
     nombre VARCHAR(100),
     descripcion TEXT,
     CONSTRAINT pkIdPieza PRIMARY KEY (idPieza)
 );
 
 CREATE TABLE ordenCompra (
-    idOrdenCompra INT,
+    idOrdenCompra INT AUTO_INCREMENT,
     idProveedor INT,
     idEmpleado INT,
     fecha DATE,
@@ -124,7 +124,7 @@ CREATE TABLE ordenDetalle (
 );
 
 CREATE TABLE servicio (
-    idServicio INT,
+    idServicio INT AUTO_INCREMENT,
     nombre VARCHAR(100),
     descripcion TEXT,
     costo FLOAT,
@@ -132,7 +132,7 @@ CREATE TABLE servicio (
 );
 
 CREATE TABLE reparacion (
-    idReparacion INT,
+    idReparacion INT AUTO_INCREMENT,
     idVehiculo INT,
     idEmpleado INT,
     idServicio INT,
@@ -146,7 +146,7 @@ CREATE TABLE reparacion (
 );
 
 CREATE TABLE cita (
-    idCita INT,
+    idCita INT AUTO_INCREMENT,
     idReparacion INT,
     fechaHora DATETIME,
     CONSTRAINT pkIdCita PRIMARY KEY (idCita),
@@ -163,7 +163,7 @@ CREATE TABLE reparacionPieza (
 );
 
 CREATE TABLE factura (
-    idFactura INT,
+    idFactura INT AUTO_INCREMENT,
     idCliente INT,
     fecha DATE,
     total FLOAT,
@@ -181,38 +181,37 @@ CREATE TABLE detalleFactura (
 );
 
 CREATE TABLE pais (
-    idPais INT,
-    pais   VARCHAR(100),
+    idPais INT AUTO_INCREMENT,
+    pais VARCHAR(100),
     CONSTRAINT pkIdPais PRIMARY KEY (idPais)
 );
 
 CREATE TABLE ciudad (
-    idCiudad  INT,
-    idPais    INT,
-    ciudad    VARCHAR(100),
+    idCiudad INT AUTO_INCREMENT,
+    idPais INT,
+    ciudad VARCHAR(100),
     CONSTRAINT pkIdCiudad PRIMARY KEY (idCiudad),
     CONSTRAINT fkIdPais FOREIGN KEY (idPais) REFERENCES pais(idPais)
 );
 
 CREATE TABLE sucursal (
-    idSucursal  INT,
-    idCiudad    INT,
-    nombre      VARCHAR(100),
+    idSucursal INT AUTO_INCREMENT,
+    idCiudad INT,
+    nombre VARCHAR(100),
     CONSTRAINT pkIdSucursal PRIMARY KEY (idSucursal),
     CONSTRAINT fkIdCiudadS FOREIGN KEY (idCiudad) REFERENCES ciudad(idCiudad)
 );
 
 CREATE TABLE ubicacionSucursal (
-    idUbicacionSucursal INT,
-    idSucursal  INT,
-    nombre      VARCHAR(100),
+    idUbicacionSucursal INT AUTO_INCREMENT,
+    idSucursal INT,
+    nombre VARCHAR(100),
     CONSTRAINT pkIdUbicacionSucursal PRIMARY KEY (idUbicacionSucursal),
     CONSTRAINT fkIdSucursalUB FOREIGN KEY (idSucursal) REFERENCES sucursal(idSucursal)
 );
 
-
 CREATE TABLE inventario (
-    idInventario INT,
+    idInventario INT AUTO_INCREMENT,
     idPieza INT,
     idUbicacionSucursal INT,
     cantidad VARCHAR(100),
