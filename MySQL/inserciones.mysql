@@ -1,0 +1,151 @@
+USE taller;
+
+INSERT INTO cliente (email, nombre, apellidos, direccion) VALUES
+('juan@example.com', 'Juan', 'Perez', 'Calle Falsa 123'),
+('maria@example.com', 'Maria', 'Garcia', 'Avenida Siempre Viva 742'),
+('carlos@example.com', 'Carlos', 'Lopez', 'Boulevard de los Sueños 555');
+
+
+INSERT INTO tipoTelefono (tipoTelefono) VALUES
+('Celular'),
+('Casa'),
+('Oficina');
+
+
+INSERT INTO telefonoCliente (idTipoTelefono, idCliente, numero) VALUES
+(1, 1, '555-1234'),
+(2, 2, '555-5678'),
+(3, 3, '555-8765');
+
+
+INSERT INTO marca (marca) VALUES
+('Toyota'),
+('Ford'),
+('Chevrolet');
+
+
+INSERT INTO modelo (idMarca, modelo) VALUES
+(1, 'Corolla'),
+(2, 'Fiesta'),
+(3, 'Cruze');
+
+
+INSERT INTO vehiculo (idCliente, placa, idModelo) VALUES
+(1, 'ABC123', 1),
+(2, 'DEF456', 2),
+(3, 'GHI789', 3);
+
+
+INSERT INTO proveedor (email, nombre, contacto) VALUES
+('proveedor1@example.com', 'Repuestos Toyota', 'Andres SantaMaria'),
+('proveedor2@example.com', 'Repuestos Ford', 'Santiago Parada'),
+('proveedor3@example.com', 'Repuestos Chevrolet', 'Liliana Castillo');
+
+
+INSERT INTO telefonoProveedor (idTipoTelefonoP, idProveedor, numero) VALUES
+(1, 1, '555-1122'),
+(2, 2, '555-3344'),
+(3, 3, '555-5566');
+
+INSERT INTO cargo (cargo) VALUES
+('Mecanico'),
+('Gerente'),
+('Pintor'),
+('Latonero'),
+('Recepcionista');
+
+
+INSERT INTO empleado (idCargo, nombre, apellidos, emailEmpresa, emailPersonal) VALUES
+(1, 'Luis', 'Martinez', 'luis@empresa.com', 'luis@gmail.com'),
+(4, 'Ana', 'Sanchez', 'ana@empresa.com', 'ana@gmail.com'),
+(3, 'Pedro', 'Ramirez', 'pedro@empresa.com', 'pedro@gmail.com');
+
+
+INSERT INTO telefonoEmpleado (idTipoTelefonoE, idEmpleado, numero) VALUES
+(1, 1, '555-2211'),
+(2, 2, '555-4433'),
+(3, 3, '555-6655');
+
+
+INSERT INTO pieza (nombre, descripcion) VALUES
+('Filtro de aceite', 'Filtro para el aceite del motor'),
+('Bujía', 'Bujía para encendido del motor'),
+('Pastillas de freno', 'Pastillas para el sistema de frenos');
+
+
+INSERT INTO ordenCompra (idProveedor, idEmpleado, fecha, total) VALUES
+(1, 1, '2023-06-01', 200.00),
+(2, 2, '2023-06-02', 300.00),
+(3, 3, '2023-06-03', 150.00);
+
+
+INSERT INTO ordenDetalle (idOrdenCompra, idPieza, cantidad, precio) VALUES
+(1, 1, 10, 10.00),
+(1, 2, 20, 5.00),
+(2, 3, 30, 3.00);
+
+
+INSERT INTO servicio (nombre, descripcion, costo) VALUES
+('Cambio de aceite', 'Cambio de aceite y filtro', 30.00),
+('Alineación', 'Alineación de llantas', 50.00),
+('Balanceo', 'Balanceo de llantas', 40.00);
+
+
+INSERT INTO reparacion (idVehiculo, idEmpleado, idServicio, fecha, costoTotal, descripcion) VALUES
+(1, 1, 1, '2023-05-01', 35.00, 'Cambio de aceite'),
+(2, 2, 2, '2023-05-02', 55.00, 'Alineación'),
+(3, 3, 3, '2023-05-03', 45.00, 'Balanceo');
+
+
+INSERT INTO cita (idReparacion, fechaHora) VALUES
+(1, '2023-06-04 10:00:00'),
+(2, '2023-06-04 11:00:00'),
+(3, '2023-06-04 12:00:00');
+
+
+INSERT INTO reparacionPieza (idPieza, idReparacion, cantidad) VALUES
+(1, 1, 1),
+(2, 2, 4),
+(3, 3, 2);
+
+
+INSERT INTO factura (idCliente, fecha, total) VALUES
+(1, '2023-06-05', 35.00),
+(2, '2023-06-05', 55.00),
+(3, '2023-06-05', 45.00);
+
+
+INSERT INTO detalleFactura (idReparacion, idFactura, precioFinal) VALUES
+(1, 1, 35.00),
+(2, 2, 55.00),
+(3, 3, 45.00);
+
+
+INSERT INTO pais (pais) VALUES
+('Argentina'),
+('Colombia'),
+('Chile');
+
+
+INSERT INTO ciudad (idPais, ciudad) VALUES
+(2, 'Bucaramanga'),
+(2, 'Cucuta'),
+(2, 'Cartagena');
+
+
+INSERT INTO sucursal (idCiudad, nombre) VALUES
+(1, 'Talleres JP'),
+(2, 'Compras de repuestos y Bodega Talleres JP'),
+(3, 'Boega Talleres JP');
+
+
+INSERT INTO ubicacionSucursal (idSucursal, nombre) VALUES
+(1, 'Almacen'),
+(1, 'Zona de Reparacion Mecanica'),
+(1, 'Zona de Ensamblaje');
+
+
+INSERT INTO inventario (idPieza, idUbicacionSucursal, cantidad) VALUES
+(1, 1, 50),
+(2, 2, 100),
+(3, 3, 200);
