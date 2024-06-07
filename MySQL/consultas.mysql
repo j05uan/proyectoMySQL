@@ -1,0 +1,81 @@
+
+Consultas requeridas
+
+1. Obtener el historial de reparaciones de un vehículo específico
+	
+	SELECT r.*, v.placa AS PlacaVehiculo,s.nombre AS NombreServicio, e.nombre AS NombreEmpleado
+	FROM reparacion r
+	JOIN servicio s ON r.idServicio = s.idServicio
+	JOIN vehiculo v ON v.idVehiculo = r.idVehiculo
+	JOIN empleado e ON e.idEmpleado = r.idEmpleado
+	WHERE v.placa = 'ABC123';
+
+
+2. Calcular el costo total de todas las reparaciones realizadas por un empleado
+específico en un período de tiempo
+	
+	SELECT SUM(r.costoTotal) AS costoTotalReparaciones
+	FROM reparacion r
+	JOIN empleado e ON r.idEmpleado = e.idEmpleado
+	WHERE e.nombre = 'luis' 
+	AND r.fecha BETWEEN '2022-12-31' AND '2023-12-31';
+
+3. Listar todos los clientes y los vehículos que poseen 
+	
+	SELECT c.nombre, c.apellidos, ma.marca, mo.modelo  
+	FROM cliente c
+	LEFT JOIN vehiculo v ON c.idCliente = v.idCliente
+	LEFT JOIN modelo mo ON v.idModelo = mo.idModelo
+	LEFT JOIN marca ma ON mo.idMarca = ma.idMarca;
+
+4. Obtener la cantidad de piezas en inventario para cada pieza
+	
+	SELECT p.nombre, SUM(i.cantidad) AS cantidad_total
+	FROM inventario i
+	JOIN pieza p ON p.idPieza = i.idPieza
+	GROUP BY p.nombre;
+
+5. Obtener las citas programadas para un día específico
+
+	SELECT * FROM cita 
+	WHERE DATE(fechaHora) = '2023-06-04';
+	
+6. Generar una factura para un cliente específico en una fecha determinada
+	
+	SELECT f.*, c.nombre FROM factura f
+	JOIN cliente c ON c.idCliente = f.idCliente
+	WHERE  DATE(f.fecha)='2023-06-05' 
+	AND c.nombre = 'Juan'; 
+	
+7. Listar todas las órdenes de compra y sus detalles
+
+	SELECT OD.*, OC.*
+	FROM ordenDetalle OD
+	JOIN ordenCompra OC ON OD.idOrdenCompra = OC.idOrdenCompra;
+
+	
+8. Obtener el costo total de piezas utilizadas en una reparación específica
+
+	SELECT SUM(precio * cantidad) AS costo_total_piezas
+	FROM reparacionPieza
+	JOIN pieza ON reparacionPieza.idPieza = pieza.idPieza
+	WHERE idReparacion = 1;
+
+	
+9. Obtener el inventario de piezas que necesitan ser reabastecidas (cantidad
+menor que un umbral)
+10. Obtener la lista de servicios más solicitados en un período específico
+11. Obtener el costo total de reparaciones para cada cliente en un período
+específico
+12. Listar los empleados con mayor cantidad de reparaciones realizadas en un
+período específico
+13. Obtener las piezas más utilizadas en reparaciones durante un período
+específico
+14. Calcular el promedio de costo de reparaciones por vehículo
+15. Obtener el inventario de piezas por proveedor
+16. Listar los clientes que no han realizado reparaciones en el último año
+17. Obtener las ganancias totales del taller en un período específico
+18. Listar los empleados y el total de horas trabajadas en reparaciones en un
+período específico (asumiendo que se registra la duración de cada reparación)
+19. Obtener el listado de servicios prestados por cada empleado en un período
+específico
