@@ -73,6 +73,7 @@ menor que un umbral)
 	WHERE i.cantidad < 10;
 
 10. Obtener la lista de servicios más solicitados en un período específico
+
 	SELECT s.nombre AS servicio, COUNT(r.idServicio) AS cantidadSolicitada
 	FROM reparacion r
 	JOIN servicio s ON r.idServicio = s.idServicio
@@ -82,15 +83,85 @@ menor que un umbral)
 
 11. Obtener el costo total de reparaciones para cada cliente en un período
 específico
+
+	SELECT c.nombre AS cliente, SUM(r.costoTotal) AS costoTotal
+	FROM reparacion r
+	JOIN vehiculo v ON r.idVehiculo = v.idVehiculo
+	JOIN cliente c ON v.idCliente = c.idCliente
+	WHERE r.fecha BETWEEN '2023-01-01' AND '2023-12-31'
+	GROUP BY c.idCliente;
+
 12. Listar los empleados con mayor cantidad de reparaciones realizadas en un
 período específico
+
+	SELECT e.nombre AS empleado, COUNT(r.idReparacion) AS cantidadReparaciones
+	FROM reparacion r
+	JOIN empleado e ON r.idEmpleado = e.idEmpleado
+	WHERE r.fecha BETWEEN '2023-01-01' AND '2023-12-31'
+	GROUP BY e.idEmpleado
+	ORDER BY cantidadReparaciones DESC;
+
+	
 13. Obtener las piezas más utilizadas en reparaciones durante un período
 específico
+
+	SELECT p.nombre AS pieza, SUM(rp.cantidad) AS cantidadUsada
+	FROM reparacionPieza rp
+	JOIN pieza p ON rp.idPieza = p.idPieza
+	JOIN reparacion r ON rp.idReparacion = r.idReparacion
+	WHERE r.fecha BETWEEN '2023-01-01' AND '2023-12-31'
+	GROUP BY p.idPieza
+	ORDER BY cantidadUsada DESC;
+
+
 14. Calcular el promedio de costo de reparaciones por vehículo
+
+	SELECT v.placa, AVG(r.costoTotal) AS promedioCosto
+	FROM reparacion r
+	JOIN vehiculo v ON r.idVehiculo = v.idVehiculo
+	GROUP BY v.idVehiculo;
+	
 15. Obtener el inventario de piezas por proveedor
+
+	SELECT p.nombre AS proveedor, pi.nombre AS pieza, SUM(i.cantidad) AS cantidad
+	FROM inventario i
+	JOIN pieza pi ON i.idPieza = pi.idPieza
+	JOIN ordenDetalle od ON pi.idPieza = od.idPieza
+	JOIN ordenCompra oc ON od.idOrdenCompra = oc.idOrdenCompra
+	JOIN proveedor p ON oc.idProveedor = p.idProveedor
+	GROUP BY p.idProveedor, pi.idPieza;
+
+
 16. Listar los clientes que no han realizado reparaciones en el último año
+	
+	SELECT c.nombre AS cliente
+	FROM cliente c
+	LEFT JOIN vehiculo v ON c.idCliente = v.idCliente
+	LEFT JOIN reparacion r ON v.idVehiculo = r.idVehiculo
+	WHERE r.fecha IS NULL OR r.fecha < DATE_SUB(CURDATE(), INTERVAL 1 YEAR);
+
 17. Obtener las ganancias totales del taller en un período específico
+
+	SELECT SUM(f.total) AS gananciasTotales
+	FROM factura f
+	WHERE f.fecha BETWEEN '2023-01-01' AND '2023-12-31';
+
 18. Listar los empleados y el total de horas trabajadas en reparaciones en un
 período específico (asumiendo que se registra la duración de cada reparación)
+
+	SELECT e.nombre AS empleado, SUM(r.duracionHoras) AS horasTrabajadas
+	FROM reparacion r
+	JOIN empleado e ON r.idEmpleado = e.idEmpleado
+	WHERE r.fecha BETWEEN '2023-01-01' AND '2023-12-31'
+	GROUP BY e.idEmpleado;
+
+
 19. Obtener el listado de servicios prestados por cada empleado en un período
 específico
+
+	SELECT e.nombre AS empleado, s.nombre AS servicio, COUNT(r.idReparacion) AS cantidadServicios
+	FROM reparacion r
+	JOIN empleado e ON r.idEmpleado = e.idEmpleado
+	JOIN servicio s ON r.idServicio = s.idServicio
+	WHERE r.fecha BETWEEN '2023-01-01' AND '2023-12-31'
+	GROUP BY e.idEmpleado, s.idServicio;
