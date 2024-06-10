@@ -37,13 +37,17 @@ específico en un período de tiempo
 
 5. Obtener las citas programadas para un día específico
 
-	SELECT * FROM cita 
+	SELECT c,* , r.descripcion AS reparacion FROM cita c
+	JOIN reparacion r ON c.idReparacion = r.idReparacion
 	WHERE DATE(fechaHora) = '2023-06-04';
 	
 6. Generar una factura para un cliente específico en una fecha determinada
 	
-	SELECT f.*, c.nombre FROM factura f
+	SELECT f.*, c.nombre , df.precioFinal, r.descripcion AS reparacion
+	FROM factura f
 	JOIN cliente c ON c.idCliente = f.idCliente
+	JOIN detalleFactura df ON f.idFactura = df.idFactura
+	JOIN reparacion r ON df.idReparacion = r.idReparacion
 	WHERE  DATE(f.fecha)='2023-06-05' 
 	AND c.nombre = 'Juan'; 
 	
