@@ -60,15 +60,26 @@ específico en un período de tiempo
 	
 8. Obtener el costo total de piezas utilizadas en una reparación específica
 
-	SELECT SUM(precio * cantidad) AS costo_total_piezas
-	FROM reparacionPieza
-	JOIN pieza ON reparacionPieza.idPieza = pieza.idPieza
-	WHERE idReparacion = 1;
-
+	SELECT SUM(p.precio * rp.cantidad) AS costoTotal
+	FROM reparacionPieza rp
+	JOIN pieza p ON rp.idPieza = p.idPieza
+	WHERE rp.idReparacion = 1;
 	
 9. Obtener el inventario de piezas que necesitan ser reabastecidas (cantidad
 menor que un umbral)
+	SELECT p.nombre AS pieza, i.cantidad
+	FROM inventario i
+	JOIN pieza p ON i.idPieza = p.idPieza
+	WHERE i.cantidad < 10;
+
 10. Obtener la lista de servicios más solicitados en un período específico
+	SELECT s.nombre AS servicio, COUNT(r.idServicio) AS cantidadSolicitada
+	FROM reparacion r
+	JOIN servicio s ON r.idServicio = s.idServicio
+	WHERE r.fecha BETWEEN '2023-01-01' AND '2023-12-31'
+	GROUP BY r.idServicio
+	ORDER BY cantidadSolicitada DESC;
+
 11. Obtener el costo total de reparaciones para cada cliente en un período
 específico
 12. Listar los empleados con mayor cantidad de reparaciones realizadas en un
