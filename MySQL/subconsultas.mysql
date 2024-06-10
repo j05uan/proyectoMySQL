@@ -1,0 +1,43 @@
+Subconsultas
+1. Obtener el cliente que ha gastado más en reparaciones durante el último año.
+ 
+  SELECT c.nombre, SUM(r.costoTotal) AS gastoTotal from cliente c
+  JOIN vehiculo v ON c.idCliente = v.idCliente
+  JOIN reparacion r ON v.idVehiculo = r.idVehiculo
+  WHERE r.fecha BETWEEN DATE_SUB(CURDATE(), INTERVAL 1 YEAR) AND CURDATE()
+  GROUP BY c.idCliente
+  ORDER BY gastoTotal DESC
+  LIMIT 1;
+
+2. Obtener la pieza más utilizada en reparaciones durante el último mes
+ 
+  SELECT p.nombre, SUM(rp.cantidad) AS cantidadUsada
+  FROM pieza p
+  JOIN reparacionPieza rp ON p.idPieza = rp.idPieza
+  JOIN reparacion r ON rp.idReparacion = r.idReparacion
+  WHERE r.fecha BETWEEN DATE_SUB(CURDATE(), INTERVAL 1 MONTH) AND CURDATE()
+  GROUP BY p.idPieza
+  ORDER BY cantidadUsada DESC
+  LIMIT 1;
+  
+3. Obtener los proveedores que suministran las piezas más caras
+
+  SELECT pr.nombre AS proveedor, p.nombre AS pieza, od.precio
+  FROM proveedor pr
+  JOIN ordenCompra oc ON pr.idProveedor = oc.idProveedor
+  JOIN ordenDetalle od ON oc.idOrdenCompra = od.idOrdenCompra
+  JOIN pieza p ON od.idPieza = p.idPieza
+  ORDER BY od.precio DESC
+  LIMIT 1;
+
+
+4. Listar las reparaciones que no utilizaron piezas específicas durante el último
+año
+
+  SELECT r.idReparacion, r.descripcion
+  FROM reparacion r
+  LEFT JOIN reparacionPieza rp ON r.idReparacion = rp.idReparacion AND rp.idPieza = 1
+  WHERE rp.idPieza IS NULL AND r.fecha BETWEEN DATE_SUB(CURDATE(), INTERVAL 1 YEAR) AND CURDATE();
+
+5. Obtener las piezas que están en inventario por debajo del 10% del stock inicial
+
