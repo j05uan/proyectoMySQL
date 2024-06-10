@@ -22,7 +22,7 @@ específico en un período de tiempo
 
 3. Listar todos los clientes y los vehículos que poseen 
 	
-	SELECT c.nombre, c.apellidos, ma.marca, mo.modelo  
+	SELECT c.nombre, c.apellidos, ma.marca, mo.modelo , v.placa 
 	FROM cliente c
 	LEFT JOIN vehiculo v ON c.idCliente = v.idCliente
 	LEFT JOIN modelo mo ON v.idModelo = mo.idModelo
