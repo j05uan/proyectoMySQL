@@ -139,6 +139,7 @@ CREATE TABLE reparacion (
     fecha DATE,
     costoTotal FLOAT,
     descripcion TEXT,
+    duracionHoras VARCHAR,
     CONSTRAINT pkIdReparacion PRIMARY KEY (idReparacion),
     CONSTRAINT fkIdVehiculoR FOREIGN KEY (idVehiculo) REFERENCES vehiculo(idVehiculo),
     CONSTRAINT fkIdEmpleadoR FOREIGN KEY (idEmpleado) REFERENCES empleado(idEmpleado),
