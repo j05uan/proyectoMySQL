@@ -37,7 +37,7 @@ específico en un período de tiempo
 
 5. Obtener las citas programadas para un día específico
 
-	SELECT c,* , r.descripcion AS reparacion FROM cita c
+	SELECT c* , r.descripcion AS reparacion FROM cita c
 	JOIN reparacion r ON c.idReparacion = r.idReparacion
 	WHERE DATE(fechaHora) = '2023-06-04';
 	
