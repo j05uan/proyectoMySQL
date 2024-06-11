@@ -332,7 +332,11 @@ específico
   GROUP BY c.idCliente
   ORDER BY gastoTotal DESC
   LIMIT 1;
-
++--------+------------+
+| nombre | gastoTotal |
++--------+------------+
+| Carlos |        500 |
++--------+------------+
 ~~~
 
 2. Obtener la pieza más utilizada en reparaciones durante el último mes
