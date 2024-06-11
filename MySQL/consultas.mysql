@@ -61,8 +61,9 @@ específico en un período de tiempo
 	
 8. Obtener el costo total de piezas utilizadas en una reparación específica
 
-	SELECT SUM(p.precio * rp.cantidad) AS costoTotal
+	SELECT SUM(od.precio * rp.cantidad) AS costoTotal
 	FROM reparacionPieza rp
+	JOIN ordenDetalle od ON od.idPieza = rp.idPieza
 	JOIN pieza p ON rp.idPieza = p.idPieza
 	WHERE rp.idReparacion = 1;
 	
