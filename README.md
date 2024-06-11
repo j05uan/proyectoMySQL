@@ -404,6 +404,8 @@ BEGIN
     WHERE idPieza = p_idPieza;
 END //
 DELIMITER ;
+
+CALL actualizarInventario(1, 150);
  ~~~
 3 Crear un procedimiento almacenado para eliminar una cita
  ~~~mysql
@@ -415,6 +417,7 @@ BEGIN
     WHERE idCita = p_idCita;
 END //
 DELIMITER ;
+CALL eliminarCita (1);
  ~~~
 4 Crear un procedimiento almacenado para generar una factura
  ~~~mysql
@@ -428,6 +431,7 @@ BEGIN
     VALUES (p_idCliente, p_fecha, p_total);
 END //
 DELIMITER ;
+CALL generarFactura (1,'2024-01-23',25);
  ~~~
 5 Crear un procedimiento almacenado para obtener el historial de reparaciones de un vehículo
  ~~~
@@ -435,13 +439,15 @@ DELIMITER //
 CREATE PROCEDURE obtenerHistorialReparaciones (
     IN p_idVehiculo INT )
 BEGIN
-    SELECT r.idReparacion, r.fecha, r.costoTotal, r.descripcion, s.nombre AS servicio, e.nombre AS empleado
+    SELECT v.placa, r.idReparacion, r.fecha, r.costoTotal, r.descripcion, s.nombre AS servicio, e.nombre AS empleado
     FROM reparacion r
     JOIN servicio s ON r.idServicio = s.idServicio
+    JOIN vehiculo v ON v.idVehiculo = r.idVehiculo
     JOIN empleado e ON r.idEmpleado = e.idEmpleado
     WHERE r.idVehiculo = p_idVehiculo;
 END //
 DELIMITER ;
+CALL obtenerHistorialReparaciones (1);
  ~~~
 6 Crear un procedimiento almacenado para calcular el costo total de reparaciones de un cliente en un período
  ~~~mysql
@@ -457,6 +463,7 @@ BEGIN
     WHERE v.idCliente = p_idCliente AND r.fecha BETWEEN p_fechaInicio AND p_fechaFin;
 END //
 DELIMITER ;
+CALL 
  ~~~
 
 7 Crear un procedimiento almacenado para obtener la lista de vehículos que requieren mantenimiento basado en el kilometraje.
