@@ -1,10 +1,5 @@
 USE taller;
 
-INSERT INTO reparacion (idReparacion, idVehiculo, idEmpleado, idServicio, fecha, costoTotal, descripcion, duracionHoras) 
-VALUES (5, 1, 1, 1, '2023-04-30', 250, 'cambio de Aceite', '03:00'),
-(8, 1, 1, 1, '2024-04-30', 250, 'cambio de Aceite', '03:00')
-;
-
 INSERT INTO cliente (email, nombre, apellidos, direccion) VALUES
 ('juan@example.com', 'Juan', 'Perez', 'Calle Falsa 123'),
 ('maria@example.com', 'Maria', 'Garcia', 'Avenida Siempre Viva 742'),
@@ -154,3 +149,11 @@ INSERT INTO inventario (idPieza, idUbicacionSucursal, cantidad) VALUES
 (1, 1, 50),
 (2, 2, 100),
 (3, 3, 200);
+
+
+INSERT INTO reparacion (idReparacion, idVehiculo, idEmpleado, idServicio, fecha, costoTotal, descripcion, duracionHoras) 
+VALUES (5, 1, 1, 1, '2023-04-30', 250, 'cambio de Aceite', '03:00'),
+(8, 1, 1, 1, '2024-04-30', 250, 'cambio de Aceite', '03:00')
+;
+INSERT INTO reparacionPieza (idPieza,idReparacion,cantidad) VALUES
+(3,8,20);
