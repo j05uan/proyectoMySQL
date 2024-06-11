@@ -1,14 +1,136 @@
-1. Crear un procedimiento almacenado para insertar una nueva reparación.
-2. Crear un procedimiento almacenado para actualizar el inventario de una pieza.
-3. Crear un procedimiento almacenado para eliminar una cita
-4. Crear un procedimiento almacenado para generar una factura
-5. Crear un procedimiento almacenado para obtener el historial de reparaciones
-de un vehículo
-6. Crear un procedimiento almacenado para calcular el costo total de
-reparaciones de un cliente en un período
-7. Crear un procedimiento almacenado para obtener la lista de vehículos que
-requieren mantenimiento basado en el kilometraje.
-8. Crear un procedimiento almacenado para insertar una nueva orden de compra
-9. Crear un procedimiento almacenado para actualizar los datos de un cliente
-10. Crear un procedimiento almacenado para obtener los servicios más solicitados
-en un período
+Procedimientos Almacenados
+
+1 Crear un procedimiento almacenado para insertar una nueva reparación.
+
+DELIMITER //
+CREATE PROCEDURE insertarReparacion (
+    IN p_idVehiculo INT,
+    IN p_idEmpleado INT,
+    IN p_idServicio INT,
+    IN p_fecha DATE,
+    IN p_costoTotal FLOAT,
+    IN p_descripcion TEXT )
+BEGIN
+    INSERT INTO reparacion (idVehiculo, idEmpleado, idServicio, fecha, costoTotal, descripcion)
+    VALUES (p_idVehiculo, p_idEmpleado, p_idServicio, p_fecha, p_costoTotal, p_descripcion);
+END //
+DELIMITER ;
+
+2 Crear un procedimiento almacenado para actualizar el inventario de una pieza.
+
+DELIMITER //
+CREATE PROCEDURE actualizarInventario (
+    IN p_idPieza INT,
+    IN p_nuevaCantidad INT )
+BEGIN
+    UPDATE inventario
+    SET cantidad = p_nuevaCantidad
+    WHERE idPieza = p_idPieza;
+END //
+DELIMITER ;
+
+3 Crear un procedimiento almacenado para eliminar una cita
+
+DELIMITER //
+CREATE PROCEDURE eliminarCita (
+    IN p_idCita INT )
+BEGIN
+    DELETE FROM cita
+    WHERE idCita = p_idCita;
+END //
+DELIMITER ;
+
+4 Crear un procedimiento almacenado para generar una factura
+
+DELIMITER //
+CREATE PROCEDURE generarFactura (
+    IN p_idCliente INT,
+    IN p_fecha DATE,
+    IN p_total FLOAT)
+BEGIN
+    INSERT INTO factura (idCliente, fecha, total)
+    VALUES (p_idCliente, p_fecha, p_total);
+END //
+DELIMITER ;
+
+5 Crear un procedimiento almacenado para obtener el historial de reparaciones de un vehículo
+
+DELIMITER //
+CREATE PROCEDURE obtenerHistorialReparaciones (
+    IN p_idVehiculo INT )
+BEGIN
+    SELECT r.idReparacion, r.fecha, r.costoTotal, r.descripcion, s.nombre AS servicio, e.nombre AS empleado
+    FROM reparacion r
+    JOIN servicio s ON r.idServicio = s.idServicio
+    JOIN empleado e ON r.idEmpleado = e.idEmpleado
+    WHERE r.idVehiculo = p_idVehiculo;
+END //
+DELIMITER ;
+
+6 Crear un procedimiento almacenado para calcular el costo total de reparaciones de un cliente en un período
+
+DELIMITER //
+CREATE PROCEDURE costoTotalReparacionesCliente (
+    IN p_idCliente INT,
+    IN p_fechaInicio DATE,
+    IN p_fechaFin DATE )
+BEGIN
+    SELECT SUM(r.costoTotal) AS costoTotal
+    FROM reparacion r
+    JOIN vehiculo v ON r.idVehiculo = v.idVehiculo
+    WHERE v.idCliente = p_idCliente AND r.fecha BETWEEN p_fechaInicio AND p_fechaFin;
+END //
+DELIMITER ;
+
+
+7 Crear un procedimiento almacenado para obtener la lista de vehículos que requieren mantenimiento basado en el kilometraje.
+
+
+8 Crear un procedimiento almacenado para insertar una nueva orden de compra
+
+DELIMITER //
+CREATE PROCEDURE insertarOrdenCompra (
+    IN p_idProveedor INT,
+    IN p_idEmpleado INT,
+    IN p_fecha DATE,
+    IN p_total FLOAT
+)
+BEGIN
+    INSERT INTO ordenCompra (idProveedor, idEmpleado, fecha, total)
+    VALUES (p_idProveedor, p_idEmpleado, p_fecha, p_total);
+END //
+DELIMITER ;
+
+9 Crear un procedimiento almacenado para actualizar los datos de un cliente
+
+DELIMITER //
+CREATE PROCEDURE actualizarCliente (
+    IN p_idCliente INT,
+    IN p_nombre VARCHAR(255),
+    IN p_apellidos VARCHAR(255),
+    IN p_direccion VARCHAR(255)
+)
+BEGIN
+    UPDATE cliente
+    SET nombre = p_nombre, apellidos = p_apellidos, direccion = p_direccion
+    WHERE idCliente = p_idCliente;
+END //
+DELIMITER ;
+
+10 Crear un procedimiento almacenado para obtener los servicios más solicitados en un período
+
+DELIMITER //
+CREATE PROCEDURE serviciosMasSolicitados (
+    IN p_fechaInicio DATE,
+    IN p_fechaFin DATE
+)
+BEGIN
+    SELECT s.nombre AS servicio, COUNT(r.idServicio) AS cantidadSolicitada
+    FROM reparacion r
+    JOIN servicio s ON r.idServicio = s.idServicio
+    WHERE r.fecha BETWEEN p_fechaInicio AND p_fechaFin
+    GROUP BY r.idServicio
+    ORDER BY cantidadSolicitada DESC;
+END //
+DELIMITER ;
+
