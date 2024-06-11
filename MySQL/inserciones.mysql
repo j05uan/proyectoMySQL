@@ -92,9 +92,9 @@ INSERT INTO servicio (nombre, descripcion, costo) VALUES
 
 
 INSERT INTO reparacion (idVehiculo, idEmpleado, idServicio, fecha, costoTotal, descripcion) VALUES
-(1, 1, 1, '2023-05-01', 35.00, 'Cambio de aceite'),
-(2, 2, 2, '2023-05-02', 55.00, 'Alineación'),
-(3, 3, 3, '2023-05-03', 45.00, 'Balanceo');
+(1, 1, 1, '2023-05-01', 35.00, 'Cambio de aceite','03:00'),
+(2, 2, 2, '2023-05-02', 55.00, 'Alineación','01:30'),
+(3, 3, 3, '2023-05-03', 45.00, 'Balanceo','00:20');
 
 
 INSERT INTO cita (idReparacion, fechaHora) VALUES
