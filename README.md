@@ -370,7 +370,11 @@ año
   FROM reparacion r
   LEFT JOIN reparacionPieza rp ON r.idReparacion = rp.idReparacion AND rp.idPieza = 1
   WHERE rp.idPieza IS NULL AND r.fecha BETWEEN DATE_SUB(CURDATE(), INTERVAL 1 YEAR) AND CURDATE();
-
++--------------+--------------------------------+
+| idReparacion | descripcion                    |
++--------------+--------------------------------+
+|            6 | Reemplazo de frenos delanteros |
++--------------+--------------------------------+
  ~~~
 ## PROCEDIMIENTOS
 
