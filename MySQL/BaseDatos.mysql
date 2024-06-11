@@ -139,12 +139,13 @@ CREATE TABLE reparacion (
     fecha DATE,
     costoTotal FLOAT,
     descripcion TEXT,
-    duracionHoras VARCHAR,
+    duracionHoras VARCHAR(50),  
     CONSTRAINT pkIdReparacion PRIMARY KEY (idReparacion),
     CONSTRAINT fkIdVehiculoR FOREIGN KEY (idVehiculo) REFERENCES vehiculo(idVehiculo),
     CONSTRAINT fkIdEmpleadoR FOREIGN KEY (idEmpleado) REFERENCES empleado(idEmpleado),
     CONSTRAINT fkIdServicioR FOREIGN KEY (idServicio) REFERENCES servicio(idServicio)
 );
+
 
 CREATE TABLE cita (
     idCita INT AUTO_INCREMENT,
