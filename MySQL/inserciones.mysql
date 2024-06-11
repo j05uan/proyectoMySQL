@@ -1,7 +1,7 @@
 USE taller;
 
 INSERT INTO reparacion (idReparacion, idVehiculo, idEmpleado, idServicio, fecha, costoTotal, descripcion, duracionHoras) 
-VALUES (5, 1, 1, 1, '2023-04-30', 250, 'cambio de Aceite', '03:00');
+VALUES (5, 1, 1, 1, '2024-04-30', 250, 'cambio de Aceite', '03:00');
 
 INSERT INTO cliente (email, nombre, apellidos, direccion) VALUES
 ('juan@example.com', 'Juan', 'Perez', 'Calle Falsa 123'),
